@@ -6,12 +6,12 @@ from dataset import *
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='DNI')
-    parser.add_argument('--dataset', choices=['mnist', 'cifar10'], default='cifar10')
+    parser.add_argument('--dataset', choices=['mnist', 'cifar10'], default='mnist')
     parser.add_argument('--num_epochs', type=int, default=300)
-    parser.add_argument('--model_type', choices=['mlp', 'cnn'], default='cnn',
+    parser.add_argument('--model_type', choices=['mlp', 'cnn'], default='mlp',
                     help='currently support mlp and cnn')
     parser.add_argument('--batch_size', type=int, default=100)
-    parser.add_argument('--conditioned', type=bool, default=False)
+    parser.add_argument('--conditioned', type=bool, default=True)
     parser.add_argument('--plot', type=bool, default=False)
     parser.add_argument('--use_gpu', type=bool, default=True)
 

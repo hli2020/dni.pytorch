@@ -2,7 +2,7 @@ from model import *
 from plot import *
 import torch
 from torch.autograd import Variable
-import ipdb
+# import ipdb
 
 class classifier():
 
@@ -29,7 +29,7 @@ class classifier():
         self.conditioned = args.conditioned
         self.best_perf = 0.
         self.stats = dict(grad_loss=[], classify_loss=[])
-        print "[%] model name will be", self.model_name
+        print("[%] model name will be", self.model_name)
 
     def optimizer_module(self, optimizer, forward, out, label_onehot=None):
         optimizer.zero_grad()
@@ -42,7 +42,10 @@ class classifier():
     def save_grad(self, name):
         def hook(grad):
             self.backprop_grads[name] = grad
-            self.backprop_grads[name].volatile = False
+            try:
+                self.backprop_grads[name].volatile = False  # note hyli: original is False
+            except RuntimeError:
+                pass
         return hook
 
     def optimizer_dni_module(self, images, labels, label_onehot, grad_optimizer, optimizer, forward):
@@ -55,11 +58,13 @@ class classifier():
         handles = {}
         keys = []
         for i, (out, grad) in enumerate(zip(outs, grads)):
+
             handles[str(i)] = out.register_hook(self.save_grad(str(i)))
             keys.append(str(i))
         outputs = outs[-1]
         loss = self.classificationCriterion(outputs, labels)
-        loss.backward(retain_variables=True)
+        # loss.backward(retain_variables=True)
+        loss.backward(retain_graph=True)
         for (k, v) in handles.items():
             v.remove()
         grad_loss = 0.
