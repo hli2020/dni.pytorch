@@ -2,15 +2,20 @@ import torch
 import torchvision.datasets as dsets
 import torchvision.transforms as transforms
 
+
 class mnist():
+
     def __init__(self, args):
+        root_data = '~/project/ssd.pytorch/data'   # for local pc, gpu
+        # root_data = '~/Project/ssd.pytorch/data'   # for mac
+
         # MNIST Dataset 
-        train_dataset = dsets.MNIST(root='./data',
+        train_dataset = dsets.MNIST(root=root_data,
                             train=True,
                             transform=transforms.ToTensor(),
                             download=True)
 
-        test_dataset = dsets.MNIST(root='./data',
+        test_dataset = dsets.MNIST(root=root_data,
                            train=False,
                            transform=transforms.ToTensor())
 
@@ -26,6 +31,7 @@ class mnist():
         self.num_classes = 10
         self.in_channel = 1
         self.num_train = len(train_dataset)
+
 
 class cifar10():
     def __init__(self, args):

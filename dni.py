@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 
+
 class dni_linear(nn.Module):
     def __init__(self, input_dims, num_classes, dni_hidden_size=1024, conditioned=False):
         super(dni_linear, self).__init__()
@@ -30,6 +31,7 @@ class dni_linear(nn.Module):
         out = self.layer2(out)
         out = self.layer3(out)
         return out
+
 
 class dni_Conv2d(nn.Module):
     def __init__(self, input_dims, input_size, num_classes, dni_hidden_size=64, conditioned=False):

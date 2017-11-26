@@ -1,12 +1,12 @@
 import torch.nn as nn
 from dni import *
 
+
 # CNN Model (2 conv layer)
 class cnn(nn.Module):
     def __init__(self, in_channel, conditioned_DNI, num_classes):
         super(cnn, self).__init__()
 
-               
         self.layer1 = nn.Sequential(
             nn.Conv2d(in_channel, 16, kernel_size=5, padding=2),
             nn.BatchNorm2d(16),
@@ -77,7 +77,8 @@ class cnn(nn.Module):
             return (layer1, layer2, fc), (grad_layer1, grad_layer2, grad_fc)
         else:
             return layer1, layer2, fc
-        
+
+
 # Neural Network Model (1 hidden layer)
 class mlp(nn.Module):
     def __init__(self, conditioned_DNI, input_size, num_classes, hidden_size=256):

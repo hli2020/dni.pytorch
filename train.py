@@ -2,7 +2,7 @@ from model import *
 from plot import *
 import torch
 from torch.autograd import Variable
-# import ipdb
+
 
 class classifier():
 
@@ -13,11 +13,11 @@ class classifier():
         self.num_train = data.num_train
         self.num_classes = data.num_classes
         assert args.model_type == 'mlp' or args.model_type == 'cnn'
+        # define model here, "model.py" file
         if args.model_type == 'mlp':
             self.net = mlp(args.conditioned, data.input_dims, data.num_classes, hidden_size=256)
         elif args.model_type == 'cnn':
             self.net = cnn(data.in_channel, args.conditioned, data.num_classes)
-
         if args.use_gpu:
             self.net.cuda()
 
@@ -99,9 +99,11 @@ class classifier():
                                           self.net.grad_optimizer, self.net.optimizer, self.net)
                 
                 if (i+1) % 100 == 0:
-                    print ('Epoch [%d/%d], Step [%d/%d], Loss: %.4f, Grad Loss: %.4f' 
-                         %(epoch+1, self.num_epochs, i+1, self.num_train//self.batch_size, loss.data[0], grad_loss.data[0]))
+                    print('Epoch [%d/%d], Step [%d/%d], Loss: %.4f, Grad Loss: %.4f' %
+                          (epoch+1, self.num_epochs, i+1, self.num_train//self.batch_size,
+                           loss.data[0], grad_loss.data[0]))
 
+            # show test result
             if (epoch+1) % 10 == 0:
                 perf = self.test_model(epoch+1)    
                 if perf > self.best_perf:
